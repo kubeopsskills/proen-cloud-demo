@@ -89,7 +89,7 @@ workflows:
               only: 
               - develop
               - /hotfix.*/
-        require:
+        requires:
         - Build-And-Push
         context: 
         - proen-cloud
