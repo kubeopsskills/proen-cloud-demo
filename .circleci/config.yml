@@ -8,7 +8,7 @@ orbs:
 jobs:
   Build-And-Push:
     docker:
-      - image: public.ecr.aws/kubeopsskills/circleci:1.0.1-kubernetes-krane
+      - image: public.ecr.aws/kubeopsskills/circleci:1.0.1-docker-aws
     steps:
       - checkout
       - setup_remote_docker:
