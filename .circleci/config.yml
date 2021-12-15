@@ -1,0 +1,45 @@
+version: 2.1
+
+orbs:
+ aws-cli: circleci/aws-cli@1.3.0
+ aws-eks: circleci/aws-eks@1.0.2
+ aws-ecr: circleci/aws-ecr@6.13.0
+
+jobs:
+  Build-Container-Image:
+    docker:
+      - image: public.ecr.aws/kubeopsskills/circleci:1.0.3-docker-aws
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.7
+      - run:
+          name: Docker Container Registry Login
+          command: |
+            echo $(CR_PASS) | docker login --username $(CR_USER) --password-stdin 
+      - run:
+          name: Build and Push Docker Image to Container Registry
+          command: |
+            echo "export COMMIT_ID=$(git log --format="%H" -n 2 | head -n 1)" >> $BASH_ENV
+            source $BASH_ENV
+            echo COMMIT_ID: $COMMIT_ID 
+            docker build -t $REGISTRY:$COMMIT_ID .
+            docker push $REGISTRY:$COMMIT_ID
+            echo "$COMMIT_ID" > source_commit_id
+      - persist_to_workspace:
+          root: ~/
+          paths:
+          - project/source_commit_id
+
+workflows:
+  version: 2
+  Dev_WorkFlow:
+    jobs:
+    - Build-Container-Image:
+        filters:
+            branches:
+              only: 
+              - develop
+              - /hotfix.*/
+        context: 
+        - kubeops-demo
