@@ -32,18 +32,18 @@ image:
 
 # Set security context for sonarqube pod
 securityContext:
-  fsGroup: 1000
+  fsGroup: 0
 
 # Set security context for sonarqube container
 containerSecurityContext:
   # Sonarqube dockerfile creates sonarqube user as UID and GID 1000
-  runAsUser: 1000
+  runAsUser: 0
 
 # Settings to configure elasticsearch host requirements
 elasticsearch:
   # DEPRECATED: Use initSysctl.enabled instead
-  configureNode: true
-  bootstrapChecks: true
+  configureNode: false
+  bootstrapChecks: false
 
 # also install the nginx ingress helm chart
 nginx:
@@ -88,15 +88,15 @@ ingress:
 
 # Affinity for pod assignment
 # Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: node_type
-          operator: In
-          values:
-          - service
+# affinity:
+#   nodeAffinity:
+#     requiredDuringSchedulingIgnoredDuringExecution:
+#       nodeSelectorTerms:
+#       - matchExpressions:
+#         - key: node_type
+#           operator: In
+#           values:
+#           - service
 
 # Tolerations for pod assignment
 # Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
@@ -179,7 +179,7 @@ extraContainers: []
   # secret: your-secret
 
 initSysctl:
-  enabled: true
+  enabled: false
   vmMaxMapCount: 524288
   fsFileMax: 131072
   nofile: 131072
@@ -287,7 +287,7 @@ persistence:
   enabled: true
   accessMode: ReadWriteOnce
   size: 20Gi
-  storageClass: zonalpd
+  storageClass: jelastic-dynamic-volume
   ## Set annotations on pvc
   annotations: {}
 
@@ -365,7 +365,7 @@ postgresql:
     enabled: true
     accessMode: ReadWriteOnce
     size: 20Gi
-    storageClass: zonalpd
+    storageClass: jelastic-dynamic-volume
   securityContext:
     # For standard Kubernetes deployment, set enabled=true
     # If using OpenShift, enabled=false for restricted SCC and enabled=true for anyuid/nonroot SCC
