@@ -40,16 +40,6 @@ jobs:
             krane deploy 
 
   Deploy-Service:
-    parameters:
-      CONFIGURATION_BRANCH:
-        description: name of branch
-        type: string
-      CONFIGURATION_REPO_URL:
-        description: configuration repository url
-        type: string
-      CONFIGURATION_REPO_NAME:
-        description: configuration repository name
-        type: string
     docker:
       - image: public.ecr.aws/a1p3q7r0/alpine:3.12.0
     steps:
