@@ -6,9 +6,9 @@ orbs:
  aws-ecr: circleci/aws-ecr@6.13.0
 
 jobs:
-  Build-Container-Image:
+  Deploy-Service:
     docker:
-      - image: public.ecr.aws/kubeopsskills/circleci:1.0.3-docker-aws
+      - image: public.ecr.aws/kubeopsskills/circleci:1.0.1-kubernetes-krane
     steps:
       - checkout
       - setup_remote_docker:
@@ -20,16 +20,26 @@ jobs:
       - run:
           name: Build and Push Docker Image to Container Registry
           command: |
-            echo "export COMMIT_ID=$(git log --format="%H" -n 2 | head -n 1)" >> $BASH_ENV
-            source $BASH_ENV
-            echo COMMIT_ID: $COMMIT_ID 
-            docker build -t ${REGISTRY}:$COMMIT_ID .
-            docker push ${REGISTRY}:$COMMIT_ID
-            echo "$COMMIT_ID" > source_commit_id
-      - persist_to_workspace:
-          root: ~/
-          paths:
-          - project/source_commit_id
+            docker build -t ${REGISTRY} .
+            docker push ${REGISTRY}
+      - run:
+          name: Clone Repository
+          command: |
+            git clone https://github.com/kubeopsskills/proen-cloud-demo.git
+            cd proen-cloud-demo/system/deployment
+      - run:
+          name: Get Context
+          command: |
+            cat ${CA} > ca.crt
+            cat ${KEY} > key.crt
+            kubectl config set-cluster kubeops-proen --server=https://node24791-env-5409266.th1.proen.cloud:11175
+            kubectl config set-context kubeops-proen --cluster=kubeops-proen
+            kubectl config set-credentials kubeops --client-certificate=ca.crt --client-key=key.crt
+            kubectl config set-context kubeops-proen --user=kubeops && \
+            kubectl config use-context kubeops-proen
+            krane deploy 
+
+  
 
 workflows:
   version: 2
