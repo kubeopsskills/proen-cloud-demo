@@ -42,4 +42,4 @@ workflows:
               - develop
               - /hotfix.*/
         context: 
-        - kubeops-demo
+        - proen-cloud
