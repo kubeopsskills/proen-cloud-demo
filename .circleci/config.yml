@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Download Dependencies
           command: |
-            apk add --no-cache git wget bash
+            apk add --no-cache git wget bash curl
       - run:
           name: install kubectl
           command: |
