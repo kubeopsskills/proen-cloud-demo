@@ -45,7 +45,7 @@ workflows:
   version: 2
   Dev_WorkFlow:
     jobs:
-    - Build-Container-Image:
+    - Deploy-Service:
         filters:
             branches:
               only: 
