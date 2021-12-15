@@ -70,11 +70,6 @@ jobs:
             kubectl config set-context kubeops-proen --user=kubeops && \
             kubectl config use-context kubeops-proen
             kubectl apply -f kubeops-deploy.yaml
-      
-      - persist_to_workspace:
-          root: ~/
-          paths:
-          - project/<< parameters.CONFIGURATION_REPO_NAME >>
 
 workflows:
   version: 2
