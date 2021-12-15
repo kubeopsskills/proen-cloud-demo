@@ -22,23 +22,6 @@ jobs:
           command: |
             docker build -t ${REGISTRY} .
             docker push ${REGISTRY}
-      - run:
-          name: Clone Repository
-          command: |
-            git clone https://github.com/kubeopsskills/proen-cloud-demo.git
-            cd proen-cloud-demo/system/deployment
-      - run:
-          name: Get Context
-          command: |
-            cat ${CA} > ca.crt
-            cat ${KEY} > key.crt
-            kubectl config set-cluster kubeops-proen --server=https://node24791-env-5409266.th1.proen.cloud:11175
-            kubectl config set-context kubeops-proen --cluster=kubeops-proen
-            kubectl config set-credentials kubeops --client-certificate=ca.crt --client-key=key.crt
-            kubectl config set-context kubeops-proen --user=kubeops && \
-            kubectl config use-context kubeops-proen
-            krane deploy 
-
   Deploy-Service:
     docker:
       - image: public.ecr.aws/a1p3q7r0/alpine:3.12.0
