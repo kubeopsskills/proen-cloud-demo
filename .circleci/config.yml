@@ -16,15 +16,15 @@ jobs:
       - run:
           name: Docker Container Registry Login
           command: |
-            echo $(CR_PASS) | docker login --username $(CR_USER) --password-stdin 
+            echo ${CR_PASS} | docker login --username ${CR_USER} --password-stdin 
       - run:
           name: Build and Push Docker Image to Container Registry
           command: |
             echo "export COMMIT_ID=$(git log --format="%H" -n 2 | head -n 1)" >> $BASH_ENV
             source $BASH_ENV
             echo COMMIT_ID: $COMMIT_ID 
-            docker build -t $REGISTRY:$COMMIT_ID .
-            docker push $REGISTRY:$COMMIT_ID
+            docker build -t ${REGISTRY}:$COMMIT_ID .
+            docker push ${REGISTRY}:$COMMIT_ID
             echo "$COMMIT_ID" > source_commit_id
       - persist_to_workspace:
           root: ~/
