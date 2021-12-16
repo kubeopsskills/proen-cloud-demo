@@ -45,11 +45,14 @@ jobs:
       - run:
           name: Get KubeContext
           command: |
-            echo ${KUBECONFIG} > kube.conf
-            cat kube.conf
+            kubectl config set-cluster kubeops --server="${SERVER}"" && \
+            kubectl config set-context kubeops --cluster=kubeops && \
+            kubectl config set-credentials user --token="${TOKEN}" && \
+            kubectl config set-context kubeops --user=kubeops && \
+            kubectl config use-context kubeops
             echo "========== Deploying =========="
-            kubectl get pod --kubeconfig=kube.conf
-            kubectl apply -f kubeops-deploy.yaml --kubeconfig=kube.conf
+            kubectl get pods
+            kubectl apply -f kubeops-deploy.yaml
 
 workflows:
   version: 2
