@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Get KubeContext
           command: |
-            kubectl config set-cluster kubeops --server="${SERVER}"" && \
+            kubectl config set-cluster kubeops --server="${SERVER}" && \
             kubectl config set-context kubeops --cluster=kubeops && \
             kubectl config set-credentials user --token="${TOKEN}" && \
             kubectl config set-context kubeops --user=kubeops && \
