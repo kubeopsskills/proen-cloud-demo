@@ -45,8 +45,9 @@ jobs:
       - run:
           name: Get KubeContext
           command: |
-            echo ${KUBECONFIG} > admin.conf
-            export KUBECONFIG=admin.conf
+            echo ${KUBECONFIG} > kube.conf
+            export KUBECONFIG=kube.conf
+            echo "===== Deploying ====="
             kubectl get pod
             kubectl apply -f kubeops-deploy.yaml
 
