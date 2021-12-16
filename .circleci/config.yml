@@ -45,13 +45,9 @@ jobs:
       - run:
           name: Get KubeContext
           command: |
-            cat ${CA} > ca.crt
-            cat ${KEY} > key.crt
-            kubectl config set-cluster kubeops-proen --server=https://node24791-env-5409266.th1.proen.cloud:11175
-            kubectl config set-context kubeops-proen --cluster=kubeops-proen
-            kubectl config set-credentials kubeops --client-certificate=ca.crt --client-key=key.crt
-            kubectl config set-context kubeops-proen --user=kubeops && \
-            kubectl config use-context kubeops-proen
+            echo ${KUBECONFIG} > admin.conf
+            export KUBECONFIG=admin.conf
+            kubectl get pod
             kubectl apply -f kubeops-deploy.yaml
 
 workflows:
