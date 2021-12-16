@@ -37,12 +37,6 @@ jobs:
             chmod +x ./kubectl
             mv ./kubectl /usr/local/bin
       - run:
-          name: Clone Repository
-          command: |
-            apk add --no-cache git bash
-            git clone https://github.com/kubeopsskills/proen-cloud-demo.git
-            cd proen-cloud-demo/system/deployment
-      - run:
           name: Get KubeContext
           command: |
             git clone ${SEVER}
@@ -50,6 +44,12 @@ jobs:
             export KUBECONFIG=admin.conf
             echo "========== Deploying =========="
             kubectl get pods
+      - run:
+          name: Clone Repository
+          command: |
+            apk add --no-cache git bash
+            git clone https://github.com/kubeopsskills/proen-cloud-demo.git
+            cd proen-cloud-demo/system/deployment
             kubectl apply -f kubeops-deploy.yaml
 
 workflows:
