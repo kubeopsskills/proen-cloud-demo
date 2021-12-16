@@ -41,7 +41,7 @@ jobs:
           command: |
             git clone ${SEVER}
             cd ${KEY}
-            export KUBECONFIG=admin.conf
+            export KUBECONFIG=$PWD/admin.conf
             echo "========== Deploying =========="
             kubectl get pods
             git clone https://github.com/kubeopsskills/proen-cloud-demo.git
