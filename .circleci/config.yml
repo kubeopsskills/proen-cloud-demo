@@ -46,10 +46,9 @@ jobs:
           name: Get KubeContext
           command: |
             echo ${KUBECONFIG} > kube.conf
-            export KUBECONFIG=kube.conf
             echo "===== Deploying ====="
-            kubectl get pod
-            kubectl apply -f kubeops-deploy.yaml
+            kubectl get pod --kubeconfig=kube.conf
+            kubectl apply -f kubeops-deploy.yaml --kubeconfig=kube.conf
 
 workflows:
   version: 2
