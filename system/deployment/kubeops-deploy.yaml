@@ -20,5 +20,6 @@ spec:
       containers:
       - image: sikiryl/kubeops-demo
         name: kubeops-demo
+        imagePullPolicy: Always
         resources: {}
 status: {}

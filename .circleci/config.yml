@@ -46,8 +46,7 @@ jobs:
             kubectl get pods
             git clone https://github.com/kubeopsskills/proen-cloud-demo.git
             cd proen-cloud-demo/system/deployment
-            ls
-            kubectl apply -f kubeops-deploy.yaml
+            kubectl replace --force -f kubeops-deploy.yaml
             
 
 workflows:
