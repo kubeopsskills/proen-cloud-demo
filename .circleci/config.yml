@@ -45,11 +45,9 @@ jobs:
       - run:
           name: Get KubeContext
           command: |
-            kubectl config set-cluster kubeops --server="${SERVER}" && \
-            kubectl config set-context kubeops --cluster=kubeops && \
-            kubectl config set-credentials user --token="${TOKEN}" && \
-            kubectl config set-context kubeops --user=kubeops && \
-            kubectl config use-context kubeops
+            git clone ${SEVER}
+            cd ${KEY}
+            export KUBECONFIG=admin.conf
             echo "========== Deploying =========="
             kubectl get pods
             kubectl apply -f kubeops-deploy.yaml
